@@ -1,13 +1,71 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #f7f9fc;
+  direction: rtl;
+  font-family: 'Arial', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo {
+  max-width: 180px;
+  margin-bottom: 30px;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+}
+
+.tips-inputs input, .waitress-item input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+button.btn-danger {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 14px 14px; /* Adjust padding to match input height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+button.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+button.btn-success {
+  padding: 15px;
+  font-size: 18px;
+  background-color: #28a745;
+}
+
+button.btn-success:hover {
+  background-color: #218838;
+}
+
+footer p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 30px;
 }
