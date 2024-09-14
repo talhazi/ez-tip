@@ -1,6 +1,6 @@
 import './App.css';
 import * as XLSX from 'sheetjs-style';
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, useState } from 'react';
 
 // State reducer for managing waitress actions
 function waitressReducer(state, action) {
@@ -20,6 +20,11 @@ function waitressReducer(state, action) {
 
 function App() {
   const [waitresses, dispatch] = useReducer(waitressReducer, [{ name: '', entrance: '', exit: '' }]);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkTheme((prev) => !prev);
+  };
 
   const addWaitress = useCallback(() => dispatch({ type: 'ADD_WAITRESS' }), []);
   const removeWaitress = useCallback((index) => dispatch({ type: 'REMOVE_WAITRESS', index }), []);
@@ -27,39 +32,42 @@ function App() {
     dispatch({ type: 'UPDATE_WAITRESS', index, field, value });
   }, []);
 
-  const validateForm = useCallback((form) => {
-    const DAY = 24;
-    let formData = {};
+  const validateForm = useCallback(
+    (form) => {
+      const DAY = 24;
+      let formData = {};
 
-    if (!form.reportValidity()) return false;
-    if (!form.date || !form.date.value) return form.reportValidity();
-    if (!form['floor-tip'] || !form['floor-tip'].value) return form.reportValidity();
-    if (!form['bar-tip'] || !form['bar-tip'].value) return form.reportValidity();
+      if (!form.reportValidity()) return false;
+      if (!form.date || !form.date.value) return form.reportValidity();
+      if (!form['floor-tip'] || !form['floor-tip'].value) return form.reportValidity();
+      if (!form['bar-tip'] || !form['bar-tip'].value) return form.reportValidity();
 
-    formData.ftip = parseInt(form['floor-tip'].value);
-    formData.btip = parseInt(form['bar-tip'].value);
-    formData.date = form.date.value;
+      formData.ftip = parseInt(form['floor-tip'].value);
+      formData.btip = parseInt(form['bar-tip'].value);
+      formData.date = form.date.value;
 
-    formData.waitresses = [];
-    formData.wh = 0;
-    let entrance, exit, diff;
+      formData.waitresses = [];
+      formData.wh = 0;
+      let entrance, exit, diff;
 
-    waitresses.forEach((_, i) => {
-      entrance = new Date(`${formData.date}T${form[`waitress-entrance-${i}`].value}`);
-      exit = new Date(`${formData.date}T${form[`waitress-exit-${i}`].value}`);
-      diff = (exit - entrance) / 3600000;
-      if (parseInt(form[`waitress-exit-${i}`].value.split(':')[0]) < 17) diff += DAY;
-      formData.wh += diff;
-      formData.waitresses.push([
-        form[`waitress-name-${i}`].value,
-        form[`waitress-entrance-${i}`].value,
-        form[`waitress-exit-${i}`].value,
-        diff,
-      ]);
-    });
+      waitresses.forEach((_, i) => {
+        entrance = new Date(`${formData.date}T${form[`waitress-entrance-${i}`].value}`);
+        exit = new Date(`${formData.date}T${form[`waitress-exit-${i}`].value}`);
+        diff = (exit - entrance) / 3600000;
+        if (parseInt(form[`waitress-exit-${i}`].value.split(':')[0]) < 17) diff += DAY;
+        formData.wh += diff;
+        formData.waitresses.push([
+          form[`waitress-name-${i}`].value,
+          form[`waitress-entrance-${i}`].value,
+          form[`waitress-exit-${i}`].value,
+          diff,
+        ]);
+      });
 
-    return formData;
-  }, [waitresses]);
+      return formData;
+    },
+    [waitresses]
+  );
 
   const createExcelSheet = useCallback((formData) => {
     const totalTips = formData.ftip + formData.btip;
@@ -179,10 +187,17 @@ function App() {
   );
 
   return (
-    <div className="App">
+    <div className={`App ${isDarkTheme ? 'dark-theme' : ''}`}>
       <header className="text-center my-5">
         <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" className="img-fluid mb-3 logo" />
         <h2>EZ Tip App</h2>
+        <div className="theme-toggle">
+          <label className="switch">
+            <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
+            <span className="slider"></span>
+            <span className="toggle-label">{isDarkTheme ? 'Dark Dark' : 'Light Light'}</span>
+          </label>
+        </div>
       </header>
       <div className="form-wrapper">
         <form onSubmit={onSubmit} className="form-container p-4 shadow rounded">
@@ -236,7 +251,7 @@ function App() {
               ))}
             </div>
             <button type="button" className="btn btn-primary mb-4" onClick={addWaitress}>
-            <i className="fas fa-plus"></i> הוסף עובד
+              <i className="fas fa-plus"></i> הוסף עובד
             </button>
           </section>
 
@@ -246,7 +261,7 @@ function App() {
         </form>
       </div>
       <footer className="text-center mt-4">
-        <p className="text-muted">Made with love in Tel Aviv ❤️ by Tal Hazi</p>
+        <p className="footer-text">Made with love in Tel Aviv ❤️ by Tal Hazi</p>
       </footer>
     </div>
   );

@@ -1,7 +1,18 @@
+/* Light Theme (Default) */
 body {
   background-color: #f7f9fc;
   direction: rtl;
   font-family: 'Arial', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1;
 }
 
 .logo {
@@ -12,6 +23,7 @@ body {
 .form-wrapper {
   display: flex;
   justify-content: center;
+  flex: 1;
 }
 
 .form-container {
@@ -22,17 +34,29 @@ body {
   width: 100%;
 }
 
-.tips-inputs input, .waitress-item input {
+input.form-control,
+.waitress-item input {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ced4da;
   border-radius: 5px;
+  color: #333; /* Ensure text color remains readable */
+}
+
+input::placeholder {
+  color: #6c757d;
+}
+
+input:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: none; /* Avoid white background flash */
 }
 
 button.btn-danger {
   margin-right: 10px;
   margin-bottom: 10px;
-  padding: 14px 14px; /* Adjust padding to match input height */
+  padding: 14px 14px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,6 +82,7 @@ button.btn-success {
   padding: 15px;
   font-size: 18px;
   background-color: #28a745;
+  color: white;
 }
 
 button.btn-success:hover {
@@ -68,4 +93,113 @@ footer p {
   font-size: 14px;
   color: #666;
   margin-top: 30px;
+}
+
+.footer-text {
+  color: #999 !important;
+}
+
+/* Dark Theme */
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-theme .form-container {
+  background-color: #1e1e1e;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme input,
+.dark-theme button {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+.dark-theme input::placeholder {
+  color: #b0b0b0;
+}
+
+.dark-theme input:focus {
+  background-color: #333; /* Prevents white background flash */
+  color: #e0e0e0;
+}
+
+.dark-theme .footer-text {
+  color: #b0b0b0;
+}
+
+.dark-theme button.btn-primary {
+  background-color: #1e88e5;
+  border-color: #1e88e5;
+}
+
+.dark-theme button.btn-success {
+  background-color: #43a047;
+}
+
+.dark-theme button.btn-danger {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px; /* Aligns with the logo */
+  left: 20px; /* Aligns with the card */
+  display: flex;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-left: 10px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 12px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.toggle-label {
+  font-size: 12px;
+  margin-left: 5px;
+  color: #e0e0e0;
 }
